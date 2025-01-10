@@ -76,10 +76,12 @@ app.get("/:usuarios", (req, res)=>{//accedemos a usuarios para que nos devuelva 
 });
 
 ///////////////////////////POST/usuarios: Crea un nuevo usuario.//////////////////////////////
-app.post("/usuarios", (req, res)=>{
+app.post("/usuarios/:nombre", (req, res)=>{
     const nuevoUsuario={
         id:usuarios.length +1, //cuéntame los usuarios que hay y súmale uno más
         nombre: req.body.nombre,
+        edad: req.body.edad,
+        lugarProcedencia: req.body.lugarProcedencia,
     };
     usuarios.push(nuevoUsuario)//añadimos este elemento
     res.redirect("/");//repsuesta una vez que demos a "agregar usuario"
