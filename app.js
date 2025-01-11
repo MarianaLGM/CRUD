@@ -51,13 +51,8 @@ let usuarios = [
 ];
 
 //2. **Endpoints Disponibles:**
-//JSON
-app.get("/", (req, res) => {
-    res.json(usuarios)
-    console.log(req.params)
-})
-//LO MISMO HTML 
-/*app.get("/", (req, res)=>{
+/*
+app.get("/", (req, res)=>{
     res.send(`
         <h1>Lista de usuarios</h1>
         <ul>
@@ -75,15 +70,17 @@ app.get("/", (req, res) => {
             `);
       });*/
       
-
+app.get("/", (req, res)=>{//accedemos a usuarios para que nos devuelva todo el json
+    res.json(usuarios);
+});
 ///////////////////////////GET/usuarios`: Obtiene la lista de todos los usuarios.//////////////////////////////
-app.get("/:usuarios", (req, res)=>{//accedemos a usuarios para que nos devuelva todo el json
+app.get("/usuarios", (req, res)=>{//accedemos a usuarios para que nos devuelva todo el json
     res.json(usuarios);
 });
 
 ///////////////////////////POST/usuarios: Crea un nuevo usuario.//////////////////////////////
 /*tengo que ir a postman Body/Raw y escribo por ejemplo, en este caso: {"nombre":"Mateo","edad":"8","lugarProcedencia":"Asturias"}*/
-app.post("/usuarios/:nombre", (req, res)=>{
+app.post("/usuarios", (req, res)=>{
     console.log(req)
     const nuevoUsuario={
         id:usuarios.length +1, //cuéntame los usuarios que hay y súmale uno más
@@ -93,7 +90,7 @@ app.post("/usuarios/:nombre", (req, res)=>{
     };
     
     usuarios.push(nuevoUsuario)//añadimos este elemento
-    res.redirect("/");//repsuesta una vez que demos a "agregar usuario"*/
+    res.redirect("/");//repsuesta una vez que demos a "agregar usuario"
 })
 
 ///////////////////////////GET/usuarios/:nombre Obtiene un usuario por nombre//////////////////////////////
@@ -112,16 +109,19 @@ app.get("/usuarios/:nombre", (req, res)=>{//accedemos a usuarios para que nos de
 
 ///////////////////////////PUT /usuarios/:nombre`: Actualiza la información de un usuario por nombre////////////////////////////
 app.put("/usuarios/:nombre", (req, res)=>{
-    const actualizarInfo = (dato) => dato.usuario;
-    usuarios.findIndex(actualizarInfo);
-    res.redirect("/");
+    const usuarioModificado={
+        id:req.body.id, 
+        nombre: req.body.nombre,
+        edad: req.body.edad,
+        lugarProcedencia: req.body.lugarProcedencia,     
+    };
+    usuarios.findIndex(usuarioModificado)
+    res.redirect("/");//repsuesta una vez que demos a "agregar usuario"
 });
 
 ///////////////////////////DELETE /usuarios/:nombre`: Elimina un usuario por nombre////////////////////////////
 app.delete("/usuarios/:nombre", (req, res)=>{
-    const eliminarUsuario = usuarios.filter((usuario) =>usuario[0]);
-    usuarios.pop(eliminarUsuario)
-    res.redirect("/");
+    res.json(usuarios.filter[0])
 });
 
 app.listen(3000,() =>{
