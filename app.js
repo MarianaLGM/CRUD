@@ -63,29 +63,34 @@ app.get("/", (req, res)=>{
             </ul>
             <form action="/usuarios" method="post">
             <label for "nombre">Nombre del personaje</label>
-            <input type="test" id="nombre" name="nombre" name="nombre"required>
+            <input type="test" id="nombre" name="nombre"required>
             <button type="submit">Agregar usuario</button>
             </form> 
-            <a href="/usuarios">usuarios json</a>
+            <a href="/usuarios/:nombre">usuarios json</a>
             `);
       });
-     
+      
+///////////////////////////POST/usuarios: Crea un nuevo usuario.//////////////////////////////
+/*tengo que ir a postman Body/Raw y escribo por ejemplo, en este caso: {"nombre":"Mateo","edad":"8","lugarProcedencia":"Asturias"}*/
+app.post("/usuarios/:nombre", (req, res)=>{
+    console.log(req)
+    const nuevoUsuario={
+        id:usuarios.length +1, //cuéntame los usuarios que hay y súmale uno más
+        nombre: req.body.nombre,
+        edad: req.body.edad,
+        lugarProcedencia: req.body.lugarProcedencia,     
+    };
+    
+    usuarios.push(nuevoUsuario)//añadimos este elemento
+    res.redirect("/");//repsuesta una vez que demos a "agregar usuario"*/
+})
+
 ///////////////////////////GET/usuarios`: Obtiene la lista de todos los usuarios.//////////////////////////////
 app.get("/:usuarios", (req, res)=>{//accedemos a usuarios para que nos devuelva todo el json
     res.json(usuarios);
 });
 
-///////////////////////////POST/usuarios: Crea un nuevo usuario.//////////////////////////////
-app.post("/usuarios/:nombre", (req, res)=>{
-    const nuevoUsuario={
-        id:usuarios.length +1, //cuéntame los usuarios que hay y súmale uno más
-        nombre: req.body.nombre,
-        edad: req.body.edad,
-        lugarProcedencia: req.body.lugarProcedencia,
-    };
-    usuarios.push(nuevoUsuario)//añadimos este elemento
-    res.redirect("/");//repsuesta una vez que demos a "agregar usuario"
-});
+
 
 
 ///////////////////////////GET/usuarios/:nombre Obtiene un usuario por nombre//////////////////////////////
