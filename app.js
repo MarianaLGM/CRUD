@@ -70,6 +70,12 @@ app.get("/", (req, res)=>{
             `);
       });
       
+
+///////////////////////////GET/usuarios`: Obtiene la lista de todos los usuarios.//////////////////////////////
+app.get("/:usuarios", (req, res)=>{//accedemos a usuarios para que nos devuelva todo el json
+    res.json(usuarios);
+});
+
 ///////////////////////////POST/usuarios: Crea un nuevo usuario.//////////////////////////////
 /*tengo que ir a postman Body/Raw y escribo por ejemplo, en este caso: {"nombre":"Mateo","edad":"8","lugarProcedencia":"Asturias"}*/
 app.post("/usuarios/:nombre", (req, res)=>{
@@ -84,14 +90,6 @@ app.post("/usuarios/:nombre", (req, res)=>{
     usuarios.push(nuevoUsuario)//añadimos este elemento
     res.redirect("/");//repsuesta una vez que demos a "agregar usuario"*/
 })
-
-///////////////////////////GET/usuarios`: Obtiene la lista de todos los usuarios.//////////////////////////////
-app.get("/:usuarios", (req, res)=>{//accedemos a usuarios para que nos devuelva todo el json
-    res.json(usuarios);
-});
-
-
-
 
 ///////////////////////////GET/usuarios/:nombre Obtiene un usuario por nombre//////////////////////////////
 app.get("/usuarios/:nombre", (req, res)=>{//accedemos a usuarios para que nos devuelva un json
