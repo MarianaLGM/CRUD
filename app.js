@@ -51,8 +51,13 @@ let usuarios = [
 ];
 
 //2. **Endpoints Disponibles:**
-   
-app.get("/", (req, res)=>{
+//JSON
+app.get("/", (req, res) => {
+    res.json(usuarios)
+    console.log(req.params)
+})
+//LO MISMO HTML 
+/*app.get("/", (req, res)=>{
     res.send(`
         <h1>Lista de usuarios</h1>
         <ul>
@@ -68,7 +73,7 @@ app.get("/", (req, res)=>{
             </form> 
             <a href="/usuarios/:nombre">usuarios json</a>
             `);
-      });
+      });*/
       
 
 ///////////////////////////GET/usuarios`: Obtiene la lista de todos los usuarios.//////////////////////////////
@@ -107,7 +112,7 @@ app.get("/usuarios/:nombre", (req, res)=>{//accedemos a usuarios para que nos de
 
 ///////////////////////////PUT /usuarios/:nombre`: Actualiza la información de un usuario por nombre////////////////////////////
 app.put("/usuarios/:nombre", (req, res)=>{
-    const actualizarInfo = (dato) => dato ;
+    const actualizarInfo = (dato) => dato.usuario;
     usuarios.findIndex(actualizarInfo);
     res.redirect("/");
 });
