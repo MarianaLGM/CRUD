@@ -36,7 +36,7 @@ mientras que cURL es perfecto para usuarios de la línea de comandos.
 
 
 //1. **Instalar Dependencias:** npm install -E (OK)
-const express= require("express");
+const express=require("express");
 const app= express();   
 
 app.use(express.json());
@@ -50,32 +50,14 @@ let usuarios = [
     { id: 5, nombre: 'Blanka', edad: 32, lugarProcedencia: 'Brasil' },
 ];
 
-//2. **Endpoints Disponibles:**
-/*
-app.get("/", (req, res)=>{
-    res.send(`
-        <h1>Lista de usuarios</h1>
-        <ul>
-        ${usuarios
-          .map(
-            (usuario)=> `<li>ID: ${usuario.id} | Nombre:${usuario.nombre} | Edad:${usuario.edad} | Lugar procedencia:${usuario.lugarProcedencia}</li>`)
-            .join("")}
-            </ul>
-            <form action="/usuarios" method="post">
-            <label for "nombre">Nombre del personaje</label>
-            <input type="test" id="nombre" name="nombre"required>
-            <button type="submit">Agregar usuario</button>
-            </form> 
-            <a href="/usuarios/:nombre">usuarios json</a>
-            `);
-      });*/
-      
 app.get("/", (req, res)=>{//accedemos a usuarios para que nos devuelva todo el json
     res.json(usuarios);
+    console.log(req.params)
 });
 ///////////////////////////GET/usuarios`: Obtiene la lista de todos los usuarios.//////////////////////////////
 app.get("/usuarios", (req, res)=>{//accedemos a usuarios para que nos devuelva todo el json
     res.json(usuarios);
+    console.log(req.params)
 });
 
 ///////////////////////////POST/usuarios: Crea un nuevo usuario.//////////////////////////////
@@ -105,28 +87,40 @@ app.get("/usuarios/:nombre", (req, res)=>{//accedemos a usuarios para que nos de
 //para ello descargamos POSTMAN (OK)
 
 
-//BONUS
+/*BONUS 
+Crea dos rutas nuevas para terminar tu CRUD completo
+   - `PUT /usuarios/:nombre`: Actualiza la información de un usuario por nombre.
+   - `DELETE /usuarios/:nombre`: Elimina un usuario por nombre.
+Son similares a "POST". Con "PUT" piensa como usar el método `findIndex()` y con el "DELETE" el método `filter()`.*/
 
-///////////////////////////PUT /usuarios/:nombre`: Actualiza la información de un usuario por nombre////////////////////////////
+//////////////////PUT /usuarios/:nombre: Actualiza la información de un usuario por nombre//////////////////
 app.put("/usuarios/:nombre", (req, res)=>{
-    const usuarioModificado={
-        id:req.body.id, 
-        nombre: req.body.nombre,
-        edad: req.body.edad,
-        lugarProcedencia: req.body.lugarProcedencia,     
-    };
-    usuarios.findIndex(usuarioModificado)
-    res.redirect("/");//repsuesta una vez que demos a "agregar usuario"
-});
+    console.log(req)//vemos lo que hay en req
+    const modificarUsuario= usuarios.findIndex((usuario, i) => usuario.nombre== req.params.nombre);
+    const usuarioModificado=req.body //lo dejo así porque no sabemos qué vamos a cambiar (nombre, lugar procedenia etc)
+    usuarios[modificarUsuario].nombre=usuarioModificado.nombre?usuarioModificado.nombre:usuarios[modificarUsuario].nombre
+    usuarios[modificarUsuario].edad=usuarioModificado.edad?usuarioModificado.edad:usuarios[modificarUsuario].edad
+    usuarios[modificarUsuario].lugarProcedencia=usuarioModificado.lugarProcedencia?usuarioModificado.lugarProcedencia:usuarios[modificarUsuario].lugarProcedencia
 
-///////////////////////////DELETE /usuarios/:nombre`: Elimina un usuario por nombre////////////////////////////
+    res.send(usuarios[modificarUsuario])
+});//tengo que ir a postman Body/Raw y escribo por ejemplo, en este caso:{"nombre":"Mariana"}
+
+//params: es lo que está en la url. Por ejemplo :nombre
+//query: es lo mismo que params pero una escala menor, está en la url. se define por ? y luego &
+//body: es la info que se envía dentro de la petición, no está en la url
+
+///////////////////////////DELETE /usuarios/:nombre: Elimina un usuario por nombre////////////////////////////
 app.delete("/usuarios/:nombre", (req, res)=>{
-    res.json(usuarios.filter[0])
-});
+    console.log(req)
+    const eliminarUsuario = usuarios.filter((usuario, i) => usuario.nombre== req.params.nombre);//req.params.nombre equivale a lo que pongamos en :nombre en la url
+    console.log("el objeto a eliminar es", eliminarUsuario)
+    res.send("usuario eliminado con éxito")//PTE ACABAR PARA GENERAR UN NUEVO ARRAY PERO SIN EL ELIMINADO
+})
+
 
 app.listen(3000,() =>{
     console.log("Express está escuchando en el puerto 3000")
-  })
+})
   
 
   /***PISTAS**
