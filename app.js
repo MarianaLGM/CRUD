@@ -49,11 +49,8 @@ let usuarios = [
     { id: 4, nombre: 'Dhalsim', edad: 45, lugarProcedencia: 'India' },
     { id: 5, nombre: 'Blanka', edad: 32, lugarProcedencia: 'Brasil' },
 ];
-/*
-app.get("/", (req, res)=>{//accedemos a usuarios para que nos devuelva todo el json
-    res.json(usuarios);
-    console.log(req.params)
-});*/
+
+
 ///////////////////////////GET/usuarios`: Obtiene la lista de todos los usuarios.//////////////////////////////
 app.get("/usuarios", (req, res)=>{//accedemos a usuarios para que nos devuelva todo el json
     res.json(usuarios);
@@ -72,13 +69,25 @@ app.post("/usuarios", (req, res)=>{
     };
     
     usuarios.push(nuevoUsuario)//añadimos este elemento
-    res.redirect("/");//repsuesta una vez que demos a "agregar usuario"
+    res.redirect("/usuarios");//repsuesta una vez que demos a "agregar usuario"
 })
 
 ///////////////////////////GET/usuarios/:nombre Obtiene un usuario por nombre//////////////////////////////
 app.get("/usuarios/:nombre", (req, res)=>{//accedemos a usuarios para que nos devuelva un json
-    res.json(req.params.nombre);//req.params.nombre es lo que pongamos en la url para sustituir :nombre
+   // res.json(usuarios[0]);//req.params.nombre es lo que pongamos en la url en la parte
+   const buscarUsuario= usuarios.findIndex((usuario, i) => usuario.nombre== req.params.nombre);
+   res.send(usuarios[buscarUsuario])
 });
+/*otra opción
+app.get('/usuarios/:nombre', (req, res) => {
+    const { nombre } = req.params;
+    const usuario = usuarios.find(user => user.nombre.toLowerCase() === nombre.toLowerCase());
+    if (!usuario) {
+        return res.status(404).json({ error: 'User not found' });
+    }
+    res.json(usuario);
+});*/
+
 
 /*3. **Realizar Operaciones CRUD:**
    - Utiliza herramientas como Postman o cURL para realizar operaciones CRUD en la API.
