@@ -126,6 +126,18 @@ app.delete("/usuarios/:nombre", (req, res)=>{
     res.send("usuario eliminado con éxito")//PTE ACABAR PARA GENERAR UN NUEVO ARRAY PERO SIN EL ELIMINADO
 })
 
+/*otra opción:
+app.delete("/usuarios/:nombre", (req, res)=>{
+const nombreUsuario=req.params
+const usuarioExiste=usuarios.some(user=> user.nombre.toLocalLowerCase()=== nombre.toLocalLowerCase())
+
+if(!usuarioExiste){
+    return res.status(404).json ({error: "usuario no existe"})
+}
+
+usuarios=usuarios.filter(user => user.nombre.toLocaleLowerCase !== nombre.toLocalLowerCase())
+res.json({ mensaje: `usuario ${nombre} eliminado`})
+})*/
 
 app.listen(3000,() =>{
     console.log("Express está escuchando en el puerto 3000")
