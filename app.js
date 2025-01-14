@@ -40,7 +40,7 @@ const express=require("express");
 const app= express();   
 
 app.use(express.json());
-app.use(express.urlencoded({ extended: true }));
+app.use(express.urlencoded({ extended: true }));//cliente, body de la petición
 
 let usuarios = [
     { id: 1, nombre: 'Ryu', edad: 32, lugarProcedencia: 'Japón' },
@@ -49,11 +49,11 @@ let usuarios = [
     { id: 4, nombre: 'Dhalsim', edad: 45, lugarProcedencia: 'India' },
     { id: 5, nombre: 'Blanka', edad: 32, lugarProcedencia: 'Brasil' },
 ];
-
+/*
 app.get("/", (req, res)=>{//accedemos a usuarios para que nos devuelva todo el json
     res.json(usuarios);
     console.log(req.params)
-});
+});*/
 ///////////////////////////GET/usuarios`: Obtiene la lista de todos los usuarios.//////////////////////////////
 app.get("/usuarios", (req, res)=>{//accedemos a usuarios para que nos devuelva todo el json
     res.json(usuarios);
@@ -77,7 +77,7 @@ app.post("/usuarios", (req, res)=>{
 
 ///////////////////////////GET/usuarios/:nombre Obtiene un usuario por nombre//////////////////////////////
 app.get("/usuarios/:nombre", (req, res)=>{//accedemos a usuarios para que nos devuelva un json
-    res.json(usuarios[0]);
+    res.json(req.params.nombre);//req.params.nombre es lo que pongamos en la url para sustituir :nombre
 });
 
 /*3. **Realizar Operaciones CRUD:**
